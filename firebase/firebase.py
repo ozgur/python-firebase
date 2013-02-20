@@ -26,9 +26,23 @@ def make_post_request(url, params, data, headers, connection):
     return json.loads(response.content)
 
 
+@http_connection(60)
+def make_patch_request(url, params, data, headers, connection):
+    response = connection.patch(url, params=params, data=data, headers=headers)
+    response.raise_for_status()
+    return json.loads(response.content)
+
+
+@http_connection(30)
+def make_delete_request(url, params, headers, connection):
+    response = connection.delete(url, params=params, headers=headers)
+    response.raise_for_status()
+    return True
+
+
 class FirebaseUser(object):
     """
-    Class that wraps the credentials of authenticated user.
+    Class that wraps the credentials of the authenticated user.
     """
     def __init__(self, email, firebase_auth_token, provider, id=None):
         self.email = email
@@ -161,3 +175,54 @@ class FirebaseApplication(object):
         process_pool.apply_async(make_post_request,
                                  args=(endpoint, params, data, headers),
                                  callback=callback)
+
+    @http_connection(60)
+    def patch(self, url, data, connection, params={}, headers={}):
+        """
+        Synchronous POST request. ``data`` must be a JSONable value.
+        """
+        endpoint = self._build_endpoint_url(url, None)
+        self._authenticate(params, headers)
+        params.pop('print', None)
+        response = connection.patch(endpoint, data=json.dumps(data),
+                                    params=params, headers=headers)
+        response.raise_for_status()
+        return json.loads(response.content)
+
+    def patch_async(self, url, data, callback=None, params={}, headers={}):
+        """
+        Asynchronous PATCH request with the process pool.
+        """
+        endpoint = self._build_endpoint_url(url, None)
+        self._authenticate(params, headers)
+        params.pop('print', None)
+        data = json.dumps(data)
+        process_pool.apply_async(make_patch_request,
+                                 args=(endpoint, params, data, headers),
+                                 callback=callback)
+
+    @http_connection(30)
+    def delete(self, url, name, connection, params={}, headers={}):
+        """
+        Synchronous DELETE request. ``data`` must be a JSONable value.
+        """
+        if not name: name = ''
+        endpoint = self._build_endpoint_url(url, name)
+        self._authenticate(params, headers)
+        params.update({'print': 'silent'})
+        response = connection.delete(endpoint, params=params, headers=headers)
+        response.raise_for_status()
+        return True
+
+    def delete_async(self, url, name, callback=None, params={}, headers={}):
+        """
+        Asynchronous DELETE request with the process pool.
+        """
+        if not name: name = ''
+        endpoint = self._build_endpoint_url(url, name)
+        self._authenticate(params, headers)
+        params.update({'print': 'silent'})
+        print endpoint, params, headers
+        process_pool.apply_async(make_delete_request,
+                    args=(endpoint, params, headers), callback=callback)
+
