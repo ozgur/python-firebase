@@ -1,5 +1,4 @@
 import urlparse
-import requests
 import json
 
 from firebase_token_generator import FirebaseTokenGenerator
@@ -10,11 +9,21 @@ from async import process_pool
 
 @http_connection(60)
 def make_get_request(url, params, headers, connection):
-    return connection.get(url, params=params, headers=headers).content
+    return json.loads(connection.get(url, params=params, headers=headers).content)
 
 
-def response_to_json(response):
-    return json.loads(response)
+@http_connection(30)
+def make_put_request(url, params, data, headers, connection):
+    response = connection.put(url, data=data, params=params, headers=headers)
+    response.raise_for_status()
+    return True
+
+
+@http_connection(30)
+def make_post_request(url, params, data, headers, connection):
+    response = connection.post(url, params=params, data=data, headers=headers)
+    response.raise_for_status()
+    return json.loads(response.content)
 
 
 class FirebaseUser(object):
@@ -71,6 +80,12 @@ class FirebaseApplication(object):
         return '%s%s%s' % (urlparse.urljoin(self.dsn, url), name,
                            self.NAME_EXTENSION)
 
+    def _authenticate(self, params, headers):
+        if self.authentication:
+            headers.update(self.authentication.authenticator.HEADERS)
+            user = self.authentication.get_user()
+            params.update({'auth': user.firebase_auth_token})
+
     @http_connection(60)
     def get(self, url, name, connection, params={}, headers={}):
         """
@@ -78,22 +93,71 @@ class FirebaseApplication(object):
         """
         if name is None: name = ''
         endpoint = self._build_endpoint_url(url, name)
-        if self.authentication:
-            headers.update(self.authentication.authenticator.HEADERS)
-            user = self.authentication.get_user()
-            params.update({'auth': user.firebase_auth_token})
+        self._authenticate(params, headers)
         response = connection.get(endpoint, params=params, headers=headers)
         response.raise_for_status()
-        return response_to_json(response.content)
+        return json.loads(response.content)
 
-    def get_async(self, url, name, params={}, headers={}):
+    def get_async(self, url, name, callback=None, params={}, headers={}):
         """
         Asynchronous GET request with the process pool.
         """
+        if name is None: name = ''
         endpoint = self._build_endpoint_url(url, name)
-        if self.authentication:
-            user = self.authentication.get_user()
-            params.update({'auth': user.firebase_auth_token})
-        headers.update(self.authentication.authenticator.HEADERS)
-        process_pool.apply_async(make_get_request, args=(endpoint, params, headers),
-                                 callback=response_to_json)
+        self._authenticate(params, headers)
+        process_pool.apply_async(make_get_request,
+            args=(endpoint, params, headers), callback=callback)
+
+    @http_connection(30)
+    def put(self, url, name, data, connection, params={}, headers={}):
+        """
+        Synchronous PUT request. There will be no returning output from
+        the server, because the request will be made with ``silent``
+        parameter. ``data`` must be a JSONable value.
+        """
+        assert name, 'Snapshot name must be specified'
+        endpoint = self._build_endpoint_url(url, name)
+        self._authenticate(params, headers)
+        params.update({'print': 'silent'})
+        response = connection.put(endpoint, data=json.dumps(data),
+                                  params=params, headers=headers)
+        response.raise_for_status()
+        return True
+
+    def put_async(self, url, name, data, params={}, headers={}):
+        """
+        Asynchronous PUT request with the process pool.
+        """
+        if name is None: name = ''
+        endpoint = self._build_endpoint_url(url, name)
+        self._authenticate(params, headers)
+        params.update({'print': 'silent'})
+        data = json.dumps(data)
+        process_pool.apply_async(make_put_request,
+                                 args=(endpoint, params, data, headers),
+                                 callback=None)
+
+    @http_connection(30)
+    def post(self, url, data, connection, params={}, headers={}):
+        """
+        Synchronous POST request. ``data`` must be a JSONable value.
+        """
+        endpoint = self._build_endpoint_url(url, None)
+        self._authenticate(params, headers)
+        params.pop('print', None)
+        response = connection.post(endpoint, data=json.dumps(data),
+                                   params=params, headers=headers)
+        response.raise_for_status()
+        return json.loads(response.content)
+
+    def post_async(self, url, data, callback=None, params={}, headers={}):
+        """
+        Asynchronous POST request with the process pool.
+        """
+        endpoint = self._build_endpoint_url(url, None)
+        self._authenticate(params, headers)
+        params.pop('print', None)
+        data = json.dumps(data)
+        process_pool.apply_async(make_post_request,
+                                 args=(endpoint, params, data, headers),
+                                 callback=callback)

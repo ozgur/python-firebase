@@ -1,6 +1,6 @@
-# Taken from http://code.activestate.com/recipes/496741-object-proxying/
 
 class LazyLoadProxy(object):
+    # Taken from http://code.activestate.com/recipes/496741-object-proxying/
     __slots__ = ["_obj_fn", "__weakref__", "__proxy_storage"]
     def __init__(self, fn, storage=None):
         object.__setattr__(self, "_obj_fn", fn)
@@ -78,5 +78,6 @@ class LazyLoadProxy(object):
 
 
 class Proxy(LazyLoadProxy):
+    # Taken from http://code.activestate.com/recipes/496741-object-proxying/
     def __init__(self, obj):
         super(Proxy, self).__init__(lambda: obj)
