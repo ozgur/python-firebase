@@ -206,6 +206,7 @@ class FirebaseApplication(object):
 
     Async version is:
     firebase.get('/users', '1', {'print': 'pretty'}, callback=log_json_dict)
+
     The callback method is fed with the returning response.
     """
     NAME_EXTENSION = '.json'
