@@ -13,14 +13,6 @@ You can fetch any of your data in JSON format by appending '.json' to the end of
 
 To fetch all the users in your storage simply do the following:
 
-
-The second argument of **get** method is the name of the snapshot. Thus, if you leave it NULL you get the data in the URL **/users.json**. Besides, if you set it to **1**, you get the data in the url */users/1.json*. In other words, you get the user whose ID equals to 1.
-
-    >>> result = firebase.get('/users', '1')
-    >>> print result
-    >>> {'1': 'John Doe'}
-
-
 ```python
 from firebase import firebase
 firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
@@ -28,5 +20,35 @@ result = firebase.get('/users', None)
 print result
 {'1': 'John Doe', '2': 'Jane Doe'}
 ```
+
+
+The second argument of **get** method is the name of the snapshot. Thus, if you leave it NULL you get the data in the URL **/users.json**. Besides, if you set it to **1**, you get the data in the url **/users/1.json**. In other words, you get the user whose ID equals to 1.
+
+```python
+from firebase import firebase
+firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+result = firebase.get('/users', '1')
+print result
+{'1': 'John Doe'}
+```
+
+You can also provide extra query parameters that will be appended to the url or extra key-value pairs sent in the HTTP header.
+
+```python
+from firebase import firebase
+firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+result = firebase.get('/users/2', None, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+print result
+{'2': 'Jane Doe'}
+```
+
+
+Creating a new data requires POST or PUT request.
+
+```
+
+```
+
+
 
 The library provides all the correspoding methods for those actions in both synchoronous and asynchronous manner. You can just start an asynchronous GET request with your callback function, and the method
