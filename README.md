@@ -19,7 +19,7 @@ To fetch all the users in your storage simply do the following:
     >>> print result
     >>> {'1': 'John Doe', '2': 'Jane Doe'}
 
-The second argument of *get* method is the name of the snapshot. Thus, if you leave it NULL you get the data in the URL '/users.json', or if you set it to *1*, you get the data in the url */users/1.json*. In other words, you get the user whose ID equals to 1.
+The second argument of *get* method is the name of the snapshot. Thus, if you leave it NULL you get the data in the URL '/users.json', or if you set it to **1**, you get the data in the url */users/1.json*. In other words, you get the user whose ID equals to 1.
 
     >>> result = firebase.get('/users', '1')
     >>> print result
