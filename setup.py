@@ -16,7 +16,7 @@ version = '0.1'
 setup(name='python-firebase',
       version=__version__,
       description="Python interface to the Firebase's REST API.",
-      long_description=long_description
+      long_description=long_description,
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
