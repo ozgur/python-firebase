@@ -11,6 +11,9 @@ The python interface to the Firebase's REST API.
 
 You can fetch any of your data in JSON format by appending '.json' to the end of the URL in which your data resides and, then send an HTTPS request through your browser. Like all other REST specific APIs, Firebase offers a client to update(PATCH, PUT), create(POST), or remove(DELETE) his stored data along with just to fetch it.
 
+The library provides all the correspoding methods for those actions in both synchoronous and asynchronous manner. You can just start an asynchronous GET request with your callback function, and the method
+
+
 To fetch all the users in your storage simply do the following:
 
 ```python
@@ -42,12 +45,13 @@ print result
 {'2': 'Jane Doe'}
 ```
 
-Creating new data requires a POST or PUT request. Assuming you didn't append **print=silent** to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend does not send any output.
+Creating new data requires a POST or PUT request. Assuming you don't append **print=silent** to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend never sends an output.
 
 ```python
 from firebase import firebase
 firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
 new_user = 'Ozgur Vatansever'
+
 result = firebase.post('/users', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
 print result
 {'name'': 'Jane Doe'}
@@ -57,6 +61,13 @@ print result == None
 True
 ```
 
+Deleting data is relatively easy compared to other actions. You just set the url and the data is flushed away. Backend sends no output as a result of the delete operation.
+```python
+from firebase import firebase
+firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+firebase.delete('/users', '1')
+# John Doe goes away.
+```
 
+## Authentication
 
-The library provides all the correspoding methods for those actions in both synchoronous and asynchronous manner. You can just start an asynchronous GET request with your callback function, and the method
