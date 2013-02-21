@@ -87,3 +87,22 @@ result = firebase.get('/users', None, {'print': 'pretty'})
 print result
 {'1': 'John Doe', '2': 'Jane Doe'}
 ```
+
+## Concurrency
+
+The interface heavily depends on the standart **multiprocessing** library when concurrency comes in. While creating an asynchronous call, an on-demand process pool is created and, the async method is executed by one the idle process inside the pool. When the method returns, the pool process ships the returning value back to the main process with the callback function provided.
+
+```python
+import json
+
+from firebase import firebase
+from firebase import jsonutil
+
+firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
+
+def log_user(response):
+    with open('/tmp/users/%s.json' % response.keys()[0], 'w') as users_file:
+        users_file.write(json.dumps(response, cls=jsonutil.JSONEncoder))
+
+firebase.get_async('/users', None, {'print': 'pretty'}, callback=log_user)
+```
