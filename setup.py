@@ -18,7 +18,7 @@ setup(name='python-firebase',
       description="Python interface to the Firebase's REST API.",
       long_description=long_description,
       classifiers=[
-          'Development Status :: 5 - Production/Stable',
+          'Development Status :: 4 - Beta',
           'Environment :: Console',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: MIT License',
