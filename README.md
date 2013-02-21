@@ -18,7 +18,7 @@ To fetch all the users in your storage simply do the following:
 
 ```python
 from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
 result = firebase.get('/users', None)
 print result
 {'1': 'John Doe', '2': 'Jane Doe'}
@@ -80,4 +80,10 @@ firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', N
 result = firebase.get('/users', None, {'print': 'pretty'})
 print result
 {'error': 'Permission denied.'}
+
+authentication = firebase.Authentication('THIS_IS_MY_SECRET', 'ozgurvt@gmail.com', password=None)
+firebase.authentication = authentication
+result = firebase.get('/users', None, {'print': 'pretty'})
+print result
+{'1': 'John Doe', '2': 'Jane Doe'}
 ```
