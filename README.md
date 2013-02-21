@@ -61,7 +61,8 @@ print result == None
 True
 ```
 
-Deleting data is relatively easy compared to other actions. You just set the url and the data is flushed away. Backend sends no output as a result of the delete operation.
+Deleting data is relatively easy compared to other actions. You just set the url and that's all. Backend sends no output as a result of a delete operation.
+
 ```python
 from firebase import firebase
 firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
