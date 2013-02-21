@@ -9,7 +9,7 @@ def http_connection(timeout):
     """
     def wrapper(f):
         def wrapped(*args, **kwargs):
-            if 'connection' not in kwargs or not kwargs['connection']:
+            if not ('connection' in kwargs) or not kwargs['connection']:
                 kwargs['connection'] = requests.Session(
                     timeout=timeout, headers={'Content-type': 'application/json'})
             return f(*args, **kwargs)
