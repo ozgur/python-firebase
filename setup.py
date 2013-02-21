@@ -1,26 +1,42 @@
-from setuptools import setup, find_packages
-import sys, os
+#!/usr/bin/env python
+import os
+
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
+from firebase import __version__
+
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
+    long_description = readme.read()
 
 version = '0.1'
 
 setup(name='python-firebase',
-      version=version,
-      description="Python library for the Firebase Real-Time Web Backend",
-      long_description="""\
-""",
-      classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      version=__version__,
+      description="Python interface to the Firebase's REST API.",
+      long_description=long_description
+      classifiers=[
+          'Development Status :: 5 - Production/Stable',
+          'Environment :: Console',
+          'Intended Audience :: Developers',
+          'License :: OSI Approved :: MIT License',
+          'Operating System :: OS Independent',
+          'Programming Language :: Python :: 2.6',
+          'Programming Language :: Python :: 2.7',
+          'Natural Language :: English',
+      ],
       keywords='firebase python',
       author='Ozgur Vatansever',
       author_email='ozgurvt@gmail.com',
-      url='',
-      license='MIT License',
-      packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
-      include_package_data=True,
-      zip_safe=True,
+      maintainer='Ozgur Vatansever',
+      maintainer_email='ozgurvt@gmail.com',
+      url='http://github.com/ozgur/python-firebase',
+      license='MIT',
+      packages=['firebase'],
+      test_suite='tests.all_tests',
       install_requires=[
-          'requests',
-      ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
-      )
+          'requests>=0.9.1',
+      ]
+)
