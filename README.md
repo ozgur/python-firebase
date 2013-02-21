@@ -6,7 +6,7 @@ Python interface to the Firebase's REST API
 
 python-firebase highly makes use of the **requests** library so before you start, you need to install that package.
 
-    $ sudo pip install requests
+    $ sudo pip install requests==0.9.1
     $ git clone git@github.com:ozgur/python-firebase.git
     $ python setup.py install
 

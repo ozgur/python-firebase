@@ -37,6 +37,6 @@ setup(name='python-firebase',
       packages=['firebase'],
       test_suite='tests.all_tests',
       install_requires=[
-          'requests>=0.9.1',
+          'requests==0.9.1',
       ]
 )
