@@ -54,7 +54,7 @@ new_user = 'Ozgur Vatansever'
 
 result = firebase.post('/users', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
 print result
-{'name'': 'Jane Doe'}
+{'name': 'Jane Doe'}
 
 result = firebase.post('/users', new_user, {'print': 'silent'}, {'X_FANCY_HEADER': 'VERY FANCY'})
 print result == None
