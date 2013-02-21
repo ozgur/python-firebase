@@ -106,3 +106,9 @@ def log_user(response):
 
 firebase.get_async('/users', None, {'print': 'pretty'}, callback=log_user)
 ```
+
+## TODO
+
+ * FirebaseAuthentication class must accept additional auth parameters.
+ * Async calls must deliver exceptions raised back to the main process.
+ * More regression/stress tests on asynchronous calls.
