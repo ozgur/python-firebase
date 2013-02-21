@@ -3,6 +3,7 @@ import atexit
 from async import process_pool
 from firebase import *
 
+
 @atexit.register
 def close_process_pool():
     """

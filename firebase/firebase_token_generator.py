@@ -1,10 +1,11 @@
-#############################################################################
-# THE ENTIRE CODE HAS BEEN TAKEN FROM OFFICIAL FIREBASE GITHUB REPOSITORY   #
-# NAMED `firebase-token-generator-python` WITH SLIGHT MODIFICATIONS.        #
-#                                                                           #
-# FOR MORE INFORMATION, PLEASE TAKE A LOOK AT THE ACTUAL REPOSITORY:        #
-#  - https://github.com/firebase/firebase-token-generator-python            #
-#############################################################################
+##############################################################################
+# THE ENTIRE CODE HAS BEEN TAKEN FROM THE OFFICIAL FIREBASE GITHUB           #
+# REPOSITORY NAMED `firebase-token-generator-python` WITH SLIGHT             #
+# MODIFICATIONS.                                                             #
+#                                                                            #
+# FOR MORE INFORMATION, PLEASE TAKE A LOOK AT THE ACTUAL REPOSITORY:         #
+#  - https://github.com/firebase/firebase-token-generator-python             #
+##############################################################################
 import base64
 import hashlib
 import hmac
@@ -75,7 +76,7 @@ class FirebaseTokenGenerator(object):
         """
         if not options:
             options = {}
-        #options.update({'admin': self.admin, 'debug': self.debug})
+        options.update({'admin': self.admin, 'debug': self.debug})
         claims = self._create_options_claims(options)
         claims['v'] = self.TOKEN_VERSION
         claims['iat'] = int(time.mktime(time.gmtime()))
