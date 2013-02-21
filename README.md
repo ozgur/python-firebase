@@ -72,3 +72,12 @@ firebase.delete('/users', '1')
 
 ## Authentication
 
+Authentication in Firebase is nothing but to simply creating a token that conforms to the JWT standarts and, putting it into the querystring with the name **auth**. The library creates those token for you so you never have to struggle with constructing a valid token on your own. If we protect our data against write/read operations with some security rules, the backend sends an appropriate message back to the client with the status code **403 Forbidden**.
+
+```python
+from firebase import firebase
+firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+result = firebase.get('/users', None, {'print': 'pretty'})
+print result
+{'error': 'Permission denied.'}
+```
