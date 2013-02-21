@@ -1,6 +1,6 @@
 # Python Firebase
 
-Python interface to the Firebase's REST API.
+Python interface to the Firebase's REST API
 
 ## Installation
 
