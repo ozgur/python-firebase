@@ -22,7 +22,7 @@ print result
 ```
 
 
-The second argument of **get** method is the name of the snapshot. Thus, if you leave it NULL you get the data in the URL **/users.json**. Besides, if you set it to **1**, you get the data in the url **/users/1.json**. In other words, you get the user whose ID equals to 1.
+The second argument of **get** method is the name of the snapshot. Thus, if you leave it NULL, you get the data in the URL **/users.json**. Besides, if you set it to **1**, you get the data in the url **/users/1.json**. In other words, you get the user whose ID equals to 1.
 
 ```python
 from firebase import firebase
@@ -42,11 +42,19 @@ print result
 {'2': 'Jane Doe'}
 ```
 
+Creating new data requires a POST or PUT request. Assuming you didn't append **print=silent** to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend does not send any output.
 
-Creating a new data requires POST or PUT request.
+```python
+from firebase import firebase
+firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+new_user = 'Ozgur Vatansever'
+result = firebase.post('/users', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+print result
+{'name'': 'Jane Doe'}
 
-```
-
+result = firebase.post('/users', new_user, {'print': 'silent'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+print result == None
+True
 ```
 
 
