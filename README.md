@@ -1,4 +1,4 @@
-# python-firebase
+# Python Firebase
 
 The python interface to the Firebase REST API.
 
