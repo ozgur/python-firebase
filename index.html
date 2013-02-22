@@ -82,7 +82,7 @@ $ python setup.py install
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="n">new_user</span><span class="p">,</span> <span class="p">{</span><span class="s">'print'</span><span class="p">:</span> <span class="s">'pretty'</span><span class="p">},</span> <span class="p">{</span><span class="s">'X_FANCY_HEADER'</span><span class="p">:</span> <span class="s">'VERY FANCY'</span><span class="p">})</span>
 <span class="k">print</span> <span class="n">result</span>
-<span class="p">{</span><span class="s">'name'</span><span class="p">:</span> <span class="s">'Jane Doe'</span><span class="p">}</span>
+<span class="p">{</span><span class="s">u'name'</span><span class="p">:</span> <span class="s">u'-Io26123nDHkfybDIGl7'</span><span class="p">}</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="n">new_user</span><span class="p">,</span> <span class="p">{</span><span class="s">'print'</span><span class="p">:</span> <span class="s">'silent'</span><span class="p">},</span> <span class="p">{</span><span class="s">'X_FANCY_HEADER'</span><span class="p">:</span> <span class="s">'VERY FANCY'</span><span class="p">})</span>
 <span class="k">print</span> <span class="n">result</span> <span class="o">==</span> <span class="bp">None</span>
@@ -116,7 +116,7 @@ $ python setup.py install
 
 <h2>Concurrency</h2>
 
-<p>The interface heavily depends on the standart <strong>multiprocessing</strong> library when concurrency comes in. While creating an asynchronous call, an on-demand process pool is created and, the async method is executed by one the idle process inside the pool. When the method returns, the pool process ships the returning value back to the main process with the callback function provided.</p>
+<p>The interface heavily depends on the standart <strong>multiprocessing</strong> library when concurrency comes in. While creating an asynchronous call, an on-demand process pool is created and, the async method is executed by one the idle process inside the pool. The pool remains alive until the main process dies. So every time you trigger an async call, you always use the same pool. When the method returns, the pool process ships the returning value back to the main process with the callback function provided.</p>
 
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">json</span>
 
@@ -139,6 +139,7 @@ $ python setup.py install
 <li>Async calls must deliver exceptions raised back to the main process.</li>
 <li>More regression/stress tests on asynchronous calls.</li>
 <li>Docs must be generated.</li>
+<li>requests 1.1.0 support.</li>
 </ul>
       </section>
       <footer>
