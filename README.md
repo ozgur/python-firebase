@@ -57,7 +57,7 @@ new_user = 'Ozgur Vatansever'
 
 result = firebase.post('/users', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
 print result
-{'name': 'Jane Doe'}
+{u'name': u'-Io26123nDHkfybDIGl7'}
 
 result = firebase.post('/users', new_user, {'print': 'silent'}, {'X_FANCY_HEADER': 'VERY FANCY'})
 print result == None
@@ -116,3 +116,4 @@ firebase.get_async('/users', None, {'print': 'pretty'}, callback=log_user)
  * Async calls must deliver exceptions raised back to the main process.
  * More regression/stress tests on asynchronous calls.
  * Docs must be generated.
+ * requests 1.1.0 support.
