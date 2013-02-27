@@ -3,7 +3,7 @@ import atexit
 from async import process_pool
 from firebase import *
 
-__version__ = '0.6'
+__version__ = '1.0'
 VERSION = tuple(map(int, __version__.split('.')))
 
 @atexit.register
