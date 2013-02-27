@@ -29,7 +29,8 @@ def make_get_request(url, params, headers, connection):
                                 {'X_FIREBASE_SOMETHING': 'Hi'}, connection)
     response => {'1': 'John Doe', '2': 'Jane Doe'}
     """
-    response = connection.get(url, params=params, headers=headers)
+    timeout = getattr(connection, 'timeout')
+    response = connection.get(url, params=params, headers=headers, timeout=timeout)
     if response.ok or response.status_code == 403:
         return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
     else:
@@ -57,7 +58,9 @@ def make_put_request(url, data, params, headers, connection):
                                 {'X_FIREBASE_SOMETHING': 'Hi'}, connection)
     response => {'1': 'Ozgur Vatansever'} or {'error': 'Permission denied.'}
     """
-    response = connection.put(url, data=data, params=params, headers=headers)
+    timeout = getattr(connection, 'timeout')
+    response = connection.put(url, data=data, params=params, headers=headers,
+                              timeout=timeout)
     if response.ok or response.status_code == 403:
         return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
     else:
@@ -84,7 +87,9 @@ def make_post_request(url, data, params, headers, connection):
        '{"Ozgur Vatansever"}', {'X_FIREBASE_SOMETHING': 'Hi'}, connection)
     response => {u'name': u'-Inw6zol_2f5ThHwVcSe'} or {'error': 'Permission denied.'}
     """
-    response = connection.post(url, data=data, params=params, headers=headers)
+    timeout = getattr(connection, 'timeout')
+    response = connection.post(url, data=data, params=params, headers=headers,
+                               timeout=timeout)
     if response.ok or response.status_code == 403:
         return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
     else:
@@ -111,7 +116,9 @@ def make_patch_request(url, data, params, headers, connection):
        '{"Ozgur Vatansever"}', {'X_FIREBASE_SOMETHING': 'Hi'}, connection)
     response => {'Ozgur Vatansever'} or {'error': 'Permission denied.'}
     """
-    response = connection.patch(url, data=data, params=params, headers=headers)
+    timeout = getattr(connection, 'timeout')
+    response = connection.patch(url, data=data, params=params, headers=headers,
+                                timeout=timeout)
     if response.ok or response.status_code == 403:
         return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
     else:
@@ -137,7 +144,8 @@ def make_delete_request(url, params, headers, connection):
                                 {'X_FIREBASE_SOMETHING': 'Hi'}, connection)
     response => NULL or {'error': 'Permission denied.'}
     """
-    response = connection.delete(url, params=params, headers=headers)
+    timeout = getattr(connection, 'timeout')
+    response = connection.delete(url, params=params, headers=headers, timeout=timeout)
     if response.ok or response.status_code == 403:
         return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
     else:
