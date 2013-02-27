@@ -172,21 +172,22 @@ class FirebaseAuthentication(object):
     In addition, the provided email and password information is totally
     useless and they never appear in the ``auth`` variable at the server.
     """
-    def __init__(self, secret, email, password, debug=False, admin=False):
+    def __init__(self, secret, email, debug=False, admin=False, extra=None):
         self.authenticator = FirebaseTokenGenerator(secret, debug, admin)
         self.email = email
-        self.password = password
         self.provider = 'password'
+        self.extra = (extra or {}).copy()
+        self.extra.update({'debug': debug, 'admin': admin,
+                           'email': self.email, 'provider': self.provider})
 
-    def get_user(self, extra_data=None):
+    def get_user(self):
         """
         Method that gets the authenticated user. The returning user has
         the token, email and the provider data.
         """
-        if not extra_data: extra_data = {}
-        extra_data.update({'email': self.email, 'provider': self.provider})
-        token = self.authenticator.create_token(extra_data)
-        return FirebaseUser(self.email, token, self.provider)
+        token = self.authenticator.create_token(self.extra)
+        user_id = self.extra.get('id')
+        return FirebaseUser(self.email, token, self.provider, user_id)
 
 
 class FirebaseApplication(object):
