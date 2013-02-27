@@ -36,8 +36,6 @@
 
 <p>python-firebase highly makes use of the <strong>requests</strong> library so before you start, you need to install that package.</p>
 
-<p>.. code-block:: bash</p>
-
 <pre><code>$ sudo pip install requests
 $ git clone git@github.com:ozgur/python-firebase.git
 $ python setup.py install
@@ -51,113 +49,100 @@ $ python setup.py install
 
 <p>To fetch all the users in your storage simply do the following:</p>
 
-<p>.. code-block:: python</p>
-
-<pre><code>from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-result = firebase.get('/users', None)
-print result
-{'1': 'John Doe', '2': 'Jane Doe'}
-</code></pre>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">firebase</span> <span class="kn">import</span> <span class="n">firebase</span>
+<span class="n">firebase</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">FirebaseApplication</span><span class="p">(</span><span class="s">'https://your_storage.firebaseio.com'</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">result</span>
+<span class="p">{</span><span class="s">'1'</span><span class="p">:</span> <span class="s">'John Doe'</span><span class="p">,</span> <span class="s">'2'</span><span class="p">:</span> <span class="s">'Jane Doe'</span><span class="p">}</span>
+</pre></div>
 
 <p>The second argument of <strong>get</strong> method is the name of the snapshot. Thus, if you leave it NULL, you get the data in the URL <strong>/users.json</strong>. Besides, if you set it to <strong>1</strong>, you get the data in the url <strong>/users/1.json</strong>. In other words, you get the user whose ID equals to 1.</p>
 
-<p>.. code-block:: python</p>
-
-<pre><code>from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-result = firebase.get('/users', '1')
-print result
-{'1': 'John Doe'}
-</code></pre>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">firebase</span> <span class="kn">import</span> <span class="n">firebase</span>
+<span class="n">firebase</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">FirebaseApplication</span><span class="p">(</span><span class="s">'https://your_storage.firebaseio.com'</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="s">'1'</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">result</span>
+<span class="p">{</span><span class="s">'1'</span><span class="p">:</span> <span class="s">'John Doe'</span><span class="p">}</span>
+</pre></div>
 
 <p>You can also provide extra query parameters that will be appended to the url or extra key-value pairs sent in the HTTP header.</p>
 
-<p>.. code-block:: python</p>
-
-<pre><code>from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-result = firebase.get('/users/2', None, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
-print result
-{'2': 'Jane Doe'}
-</code></pre>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">firebase</span> <span class="kn">import</span> <span class="n">firebase</span>
+<span class="n">firebase</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">FirebaseApplication</span><span class="p">(</span><span class="s">'https://your_storage.firebaseio.com'</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/users/2'</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">'print'</span><span class="p">:</span> <span class="s">'pretty'</span><span class="p">},</span> <span class="p">{</span><span class="s">'X_FANCY_HEADER'</span><span class="p">:</span> <span class="s">'VERY FANCY'</span><span class="p">})</span>
+<span class="k">print</span> <span class="n">result</span>
+<span class="p">{</span><span class="s">'2'</span><span class="p">:</span> <span class="s">'Jane Doe'</span><span class="p">}</span>
+</pre></div>
 
 <p>Creating new data requires a POST or PUT request. Assuming you don't append <strong>print=silent</strong> to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend never sends an output.</p>
 
-<p>.. code-block:: python</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">firebase</span> <span class="kn">import</span> <span class="n">firebase</span>
+<span class="n">firebase</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">FirebaseApplication</span><span class="p">(</span><span class="s">'https://your_storage.firebaseio.com'</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">new_user</span> <span class="o">=</span> <span class="s">'Ozgur Vatansever'</span>
 
-<pre><code>from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-new_user = 'Ozgur Vatansever'
+<span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="n">new_user</span><span class="p">,</span> <span class="p">{</span><span class="s">'print'</span><span class="p">:</span> <span class="s">'pretty'</span><span class="p">},</span> <span class="p">{</span><span class="s">'X_FANCY_HEADER'</span><span class="p">:</span> <span class="s">'VERY FANCY'</span><span class="p">})</span>
+<span class="k">print</span> <span class="n">result</span>
+<span class="p">{</span><span class="s">u'name'</span><span class="p">:</span> <span class="s">u'-Io26123nDHkfybDIGl7'</span><span class="p">}</span>
 
-result = firebase.post('/users', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
-print result
-{u'name': u'-Io26123nDHkfybDIGl7'}
-
-result = firebase.post('/users', new_user, {'print': 'silent'}, {'X_FANCY_HEADER': 'VERY FANCY'})
-print result == None
-True
-</code></pre>
+<span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="n">new_user</span><span class="p">,</span> <span class="p">{</span><span class="s">'print'</span><span class="p">:</span> <span class="s">'silent'</span><span class="p">},</span> <span class="p">{</span><span class="s">'X_FANCY_HEADER'</span><span class="p">:</span> <span class="s">'VERY FANCY'</span><span class="p">})</span>
+<span class="k">print</span> <span class="n">result</span> <span class="o">==</span> <span class="bp">None</span>
+<span class="bp">True</span>
+</pre></div>
 
 <p>Deleting data is relatively easy compared to other actions. You just set the url and that's all. Backend sends no output as a result of a delete operation.</p>
 
-<p>.. code-block:: python</p>
-
-<pre><code>from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-firebase.delete('/users', '1')
-# John Doe goes away.
-</code></pre>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">firebase</span> <span class="kn">import</span> <span class="n">firebase</span>
+<span class="n">firebase</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">FirebaseApplication</span><span class="p">(</span><span class="s">'https://your_storage.firebaseio.com'</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">firebase</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="s">'1'</span><span class="p">)</span>
+<span class="c"># John Doe goes away.</span>
+</pre></div>
 
 <h2>Authentication</h2>
 
 <p>Authentication in Firebase is nothing but to simply creating a token that conforms to the JWT standarts and, putting it into the querystring with the name <strong>auth</strong>. The library creates that token for you so you never end up struggling with constructing a valid token on your own. If the data has been protected against write/read operations with some security rules, the backend sends an appropriate error message back to the client with the status code <strong>403 Forbidden</strong>.</p>
 
-<p>.. code-block:: python</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">firebase</span> <span class="kn">import</span> <span class="n">firebase</span>
+<span class="n">firebase</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">FirebaseApplication</span><span class="p">(</span><span class="s">'https://your_storage.firebaseio.com'</span><span class="p">,</span> <span class="n">authentication</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">'print'</span><span class="p">:</span> <span class="s">'pretty'</span><span class="p">})</span>
+<span class="k">print</span> <span class="n">result</span>
+<span class="p">{</span><span class="s">'error'</span><span class="p">:</span> <span class="s">'Permission denied.'</span><span class="p">}</span>
 
-<pre><code>from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
-result = firebase.get('/users', None, {'print': 'pretty'})
-print result
-{'error': 'Permission denied.'}
+<span class="n">authentication</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">Authentication</span><span class="p">(</span><span class="s">'THIS_IS_MY_SECRET'</span><span class="p">,</span> <span class="s">'ozgurvt@gmail.com'</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s">'id'</span><span class="p">:</span> <span class="mi">123</span><span class="p">})</span>
+<span class="n">firebase</span><span class="o">.</span><span class="n">authentication</span> <span class="o">=</span> <span class="n">authentication</span>
+<span class="k">print</span> <span class="n">authentication</span><span class="o">.</span><span class="n">extra</span>
+<span class="p">{</span><span class="s">'admin'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">'debug'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">'email'</span><span class="p">:</span> <span class="s">'ozgurvt@gmail.com'</span><span class="p">,</span> <span class="s">'id'</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="s">'provider'</span><span class="p">:</span> <span class="s">'password'</span><span class="p">}</span>
 
-authentication = firebase.Authentication('THIS_IS_MY_SECRET', 'ozgurvt@gmail.com', extra={'id': 123})
-firebase.authentication = authentication
-print authentication.extra
-{'admin': False, 'debug': False, 'email': 'ozgurvt@gmail.com', 'id': 123, 'provider': 'password'}
+<span class="n">user</span> <span class="o">=</span> <span class="n">authentication</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">user</span><span class="o">.</span><span class="n">firebase_auth_token</span>
+<span class="s">"eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJhZG1pbiI6IGZhbHNlLCAiZGVidWciOiBmYWxzZSwgIml</span>
+<span class="n">hdCI6IDEzNjE5NTAxNzQsICJkIjogeyJkZWJ1ZyI6IGZhbHNlLCAiYWRtaW4iOiBmYWxzZSwgInByb3ZpZGVyIjog</span>
+<span class="n">InBhc3N3b3JkIiwgImlkIjogNSwgImVtYWlsIjogIm96Z3VydnRAZ21haWwuY29tIn0sICJ2IjogMH0</span><span class="o">.</span><span class="n">lq4IRVfvE</span>
+<span class="n">GQklslOlS4uIBLSSJj88YNrloWXvisRgfQ</span><span class="s">"</span>
 
-user = authentication.get_user()
-print user.firebase_auth_token
-"eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJhZG1pbiI6IGZhbHNlLCAiZGVidWciOiBmYWxzZSwgIml
-hdCI6IDEzNjE5NTAxNzQsICJkIjogeyJkZWJ1ZyI6IGZhbHNlLCAiYWRtaW4iOiBmYWxzZSwgInByb3ZpZGVyIjog
-InBhc3N3b3JkIiwgImlkIjogNSwgImVtYWlsIjogIm96Z3VydnRAZ21haWwuY29tIn0sICJ2IjogMH0.lq4IRVfvE
-GQklslOlS4uIBLSSJj88YNrloWXvisRgfQ"
-
-result = firebase.get('/users', None, {'print': 'pretty'})
-print result
-{'1': 'John Doe', '2': 'Jane Doe'}
-</code></pre>
+<span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">'print'</span><span class="p">:</span> <span class="s">'pretty'</span><span class="p">})</span>
+<span class="k">print</span> <span class="n">result</span>
+<span class="p">{</span><span class="s">'1'</span><span class="p">:</span> <span class="s">'John Doe'</span><span class="p">,</span> <span class="s">'2'</span><span class="p">:</span> <span class="s">'Jane Doe'</span><span class="p">}</span>
+</pre></div>
 
 <h2>Concurrency</h2>
 
 <p>The interface heavily depends on the standart <strong>multiprocessing</strong> library when concurrency comes in. While creating an asynchronous call, an on-demand process pool is created and, the async method is executed by one the idle process inside the pool. The pool remains alive until the main process dies. So every time you trigger an async call, you always use the same pool. When the method returns, the pool process ships the returning value back to the main process with the callback function provided.</p>
 
-<p>.. code-block:: python</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">json</span>
 
-<pre><code> import json
- from firebase import firebase
- from firebase import jsonutil
+<span class="kn">from</span> <span class="nn">firebase</span> <span class="kn">import</span> <span class="n">firebase</span>
+<span class="kn">from</span> <span class="nn">firebase</span> <span class="kn">import</span> <span class="n">jsonutil</span>
 
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
+<span class="n">firebase</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">FirebaseApplication</span><span class="p">(</span><span class="s">'https://your_storage.firebaseio.com'</span><span class="p">,</span> <span class="n">authentication</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 
-def log_user(response):
-    with open('/tmp/users/%s.json' % response.keys()[0], 'w') as users_file:
-        users_file.write(json.dumps(response, cls=jsonutil.JSONEncoder))
+<span class="k">def</span> <span class="nf">log_user</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'/tmp/users/</span><span class="si">%s</span><span class="s">.json'</span> <span class="o">%</span> <span class="n">response</span><span class="o">.</span><span class="n">keys</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">users_file</span><span class="p">:</span>
+        <span class="n">users_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="n">jsonutil</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">))</span>
 
-firebase.get_async('/users', None, {'print': 'pretty'}, callback=log_user)
-</code></pre>
+<span class="n">firebase</span><span class="o">.</span><span class="n">get_async</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">'print'</span><span class="p">:</span> <span class="s">'pretty'</span><span class="p">},</span> <span class="n">callback</span><span class="o">=</span><span class="n">log_user</span><span class="p">)</span>
+</pre></div>
 
-<h2>TODO</h2>
+<h1>TODO</h1>
 
 <ul>
 <li>Async calls must deliver exceptions raised back to the main process.</li>
