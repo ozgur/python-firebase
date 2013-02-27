@@ -130,6 +130,6 @@ The interface heavily depends on the standart **multiprocessing** library when c
 TODO
 ---------
 
- * Async calls must deliver exceptions raised back to the main process.
- * More regression/stress tests on asynchronous calls.
- * Docs must be generated.
+* Async calls must deliver exceptions raised back to the main process.
+* More regression/stress tests on asynchronous calls.
+* Docs must be generated.
