@@ -114,9 +114,9 @@ The interface heavily depends on the standart **multiprocessing** library when c
 
 .. code-block:: python
 
-    import json
-    from firebase import firebase
-    from firebase import jsonutil
+        import json
+        from firebase import firebase
+        from firebase import jsonutil
 
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
 
