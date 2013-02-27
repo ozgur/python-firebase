@@ -24,7 +24,7 @@ The library provides all the correspoding methods for those actions in both sync
 
 To fetch all the users in your storage simply do the following:
 
-.. code-block:: pycon
+.. code-block:: python
 
     from firebase import firebase
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
@@ -34,7 +34,7 @@ To fetch all the users in your storage simply do the following:
 
 The second argument of **get** method is the name of the snapshot. Thus, if you leave it NULL, you get the data in the URL **/users.json**. Besides, if you set it to **1**, you get the data in the url **/users/1.json**. In other words, you get the user whose ID equals to 1.
 
-.. code-block:: pycon
+.. code-block:: python
 
     from firebase import firebase
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
@@ -44,7 +44,7 @@ The second argument of **get** method is the name of the snapshot. Thus, if you 
 
 You can also provide extra query parameters that will be appended to the url or extra key-value pairs sent in the HTTP header.
 
-.. code-block:: pycon
+.. code-block:: python
 
     from firebase import firebase
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
@@ -54,7 +54,7 @@ You can also provide extra query parameters that will be appended to the url or 
 
 Creating new data requires a POST or PUT request. Assuming you don't append **print=silent** to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend never sends an output.
 
-.. code-block:: pycon
+.. code-block:: python
 
     from firebase import firebase
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
@@ -70,7 +70,7 @@ Creating new data requires a POST or PUT request. Assuming you don't append **pr
 
 Deleting data is relatively easy compared to other actions. You just set the url and that's all. Backend sends no output as a result of a delete operation.
 
-.. code-block:: pycon
+.. code-block:: python
 
     from firebase import firebase
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
@@ -82,7 +82,7 @@ Authentication
 
 Authentication in Firebase is nothing but to simply creating a token that conforms to the JWT standarts and, putting it into the querystring with the name **auth**. The library creates that token for you so you never end up struggling with constructing a valid token on your own. If the data has been protected against write/read operations with some security rules, the backend sends an appropriate error message back to the client with the status code **403 Forbidden**.
 
-.. code-block:: pycon
+.. code-block:: python
 
     from firebase import firebase
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
@@ -114,9 +114,9 @@ The interface heavily depends on the standart **multiprocessing** library when c
 
 .. code-block:: python
 
-        import json
-        from firebase import firebase
-        from firebase import jsonutil
+     import json
+     from firebase import firebase
+     from firebase import jsonutil
 
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
 
