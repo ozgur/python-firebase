@@ -11,20 +11,21 @@ from firebase.firebase import (FirebaseAuthentication, FirebaseApplication,
 class MockConnection(object):
     def __init__(self, response):
         self.response = response
+        self.headers = {}
 
-    def get(self, url, params, headers):
+    def get(self, url, params, headers, *args, **kwargs):
         return self.response
 
-    def post(self, url, data, params, headers):
+    def post(self, url, data, params, headers, *args, **kwargs):
         return self.response
 
-    def put(self, url, data, params, headers):
+    def put(self, url, data, params, headers, *args, **kwargs):
         return self.response
 
-    def patch(self, url, data, params, headers):
+    def patch(self, url, data, params, headers, *args, **kwargs):
         return self.response
 
-    def delete(self, url, params, headers):
+    def delete(self, url, params, headers, *args, **kwargs):
         return self.response
 
 
@@ -46,7 +47,8 @@ class FirebaseTestCase(unittest.TestCase):
         self.SECRET = 'FAKE_FIREBASE_SECRET'
         self.DSN = 'https://firebase.localhost'
         self.EMAIL = 'python-firebase@firebase.com'
-        self.authentication = FirebaseAuthentication(self.SECRET, self.EMAIL, None)
+        self.authentication = FirebaseAuthentication(self.SECRET, self.EMAIL,
+                                                     None)
         self.firebase = FirebaseApplication(self.DSN, self.authentication)
 
     def test_build_endpoint_url(self):

@@ -11,6 +11,7 @@ from firebase import __version__
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     long_description = readme.read()
 
+
 setup(name='python-firebase',
       version=__version__,
       description="Python interface to the Firebase's REST API.",
@@ -30,11 +31,10 @@ setup(name='python-firebase',
       author_email='ozgurvt@gmail.com',
       maintainer='Ozgur Vatansever',
       maintainer_email='ozgurvt@gmail.com',
-      url='http://github.com/ozgur/python-firebase',
+      url='http://ozgur.github.com/python-firebase/',
       license='MIT',
       packages=['firebase'],
       test_suite='tests.all_tests',
-      install_requires=[
-          'requests==0.9.1',
-      ]
+      install_requires=['requests>=1.1.0'],
+      zip_safe=False,
 )
