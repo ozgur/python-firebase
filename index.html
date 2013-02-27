@@ -36,7 +36,7 @@
 
 <p>python-firebase highly makes use of the <strong>requests</strong> library so before you start, you need to install that package.</p>
 
-<pre><code>$ sudo pip install requests==0.9.1
+<pre><code>$ sudo pip install requests
 $ git clone git@github.com:ozgur/python-firebase.git
 $ python setup.py install
 </code></pre>
@@ -107,8 +107,18 @@ $ python setup.py install
 <span class="k">print</span> <span class="n">result</span>
 <span class="p">{</span><span class="s">'error'</span><span class="p">:</span> <span class="s">'Permission denied.'</span><span class="p">}</span>
 
-<span class="n">authentication</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">Authentication</span><span class="p">(</span><span class="s">'THIS_IS_MY_SECRET'</span><span class="p">,</span> <span class="s">'ozgurvt@gmail.com'</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="n">authentication</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">Authentication</span><span class="p">(</span><span class="s">'THIS_IS_MY_SECRET'</span><span class="p">,</span> <span class="s">'ozgurvt@gmail.com'</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s">'id'</span><span class="p">:</span> <span class="mi">123</span><span class="p">})</span>
 <span class="n">firebase</span><span class="o">.</span><span class="n">authentication</span> <span class="o">=</span> <span class="n">authentication</span>
+<span class="k">print</span> <span class="n">authentication</span><span class="o">.</span><span class="n">extra</span>
+<span class="p">{</span><span class="s">'admin'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">'debug'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">'email'</span><span class="p">:</span> <span class="s">'ozgurvt@gmail.com'</span><span class="p">,</span> <span class="s">'id'</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="s">'provider'</span><span class="p">:</span> <span class="s">'password'</span><span class="p">}</span>
+
+<span class="n">user</span> <span class="o">=</span> <span class="n">authentication</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">user</span><span class="o">.</span><span class="n">firebase_auth_token</span>
+<span class="s">"eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJhZG1pbiI6IGZhbHNlLCAiZGVidWciOiBmYWxzZSwgIml</span>
+<span class="n">hdCI6IDEzNjE5NTAxNzQsICJkIjogeyJkZWJ1ZyI6IGZhbHNlLCAiYWRtaW4iOiBmYWxzZSwgInByb3ZpZGVyIjog</span>
+<span class="n">InBhc3N3b3JkIiwgImlkIjogNSwgImVtYWlsIjogIm96Z3VydnRAZ21haWwuY29tIn0sICJ2IjogMH0</span><span class="o">.</span><span class="n">lq4IRVfvE</span>
+<span class="n">GQklslOlS4uIBLSSJj88YNrloWXvisRgfQ</span><span class="s">"</span>
+
 <span class="n">result</span> <span class="o">=</span> <span class="n">firebase</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">'print'</span><span class="p">:</span> <span class="s">'pretty'</span><span class="p">})</span>
 <span class="k">print</span> <span class="n">result</span>
 <span class="p">{</span><span class="s">'1'</span><span class="p">:</span> <span class="s">'John Doe'</span><span class="p">,</span> <span class="s">'2'</span><span class="p">:</span> <span class="s">'Jane Doe'</span><span class="p">}</span>
@@ -135,11 +145,9 @@ $ python setup.py install
 <h1>TODO</h1>
 
 <ul>
-<li>FirebaseAuthentication class must accept additional auth parameters.</li>
 <li>Async calls must deliver exceptions raised back to the main process.</li>
 <li>More regression/stress tests on asynchronous calls.</li>
 <li>Docs must be generated.</li>
-<li>requests 1.1.0 support.</li>
 </ul>
       </section>
       <footer>
