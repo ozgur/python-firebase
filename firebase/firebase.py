@@ -1,4 +1,9 @@
-import urlparse
+try:
+    import urlparse
+except ImportError:
+    #py3k
+    from urllib import parse as urlparse
+
 import json
 
 from .firebase_token_generator import FirebaseTokenGenerator
