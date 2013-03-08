@@ -1,6 +1,6 @@
 import multiprocessing
 
-from lazy import LazyLoadProxy
+from .lazy import LazyLoadProxy
 
 __all__ = ['process_pool']
 

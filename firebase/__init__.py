@@ -1,6 +1,6 @@
 import atexit
 
-from async import process_pool
+from .async import process_pool
 from firebase import *
 
 __version__ = '1.0'

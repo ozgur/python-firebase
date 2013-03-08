@@ -1,11 +1,11 @@
 import urlparse
 import json
 
-from firebase_token_generator import FirebaseTokenGenerator
-from decorators import http_connection
+from .firebase_token_generator import FirebaseTokenGenerator
+from .decorators import http_connection
 
-from async import process_pool
-from jsonutil import JSONEncoder
+from .async import process_pool
+from .jsonutil import JSONEncoder
 
 __all__ = ['FirebaseAuthentication', 'FirebaseApplication']
 
