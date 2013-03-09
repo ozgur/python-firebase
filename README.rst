@@ -3,6 +3,9 @@ Python Firebase
 
 Python interface to the Firebase's REST API
 
+.. image:: https://travis-ci.org/ozgur/python-firebase.png?branch=master
+   :target: https://travis-ci.org/ozgur/python-firebase
+
 Installation
 -----------------
 
