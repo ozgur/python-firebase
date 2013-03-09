@@ -1,11 +1,16 @@
-import urlparse
+try:
+    import urlparse
+except ImportError:
+    #py3k
+    from urllib import parse as urlparse
+
 import json
 
-from firebase_token_generator import FirebaseTokenGenerator
-from decorators import http_connection
+from .firebase_token_generator import FirebaseTokenGenerator
+from .decorators import http_connection
 
-from async import process_pool
-from jsonutil import JSONEncoder
+from .async import process_pool
+from .jsonutil import JSONEncoder
 
 __all__ = ['FirebaseAuthentication', 'FirebaseApplication']
 
@@ -32,7 +37,7 @@ def make_get_request(url, params, headers, connection):
     timeout = getattr(connection, 'timeout')
     response = connection.get(url, params=params, headers=headers, timeout=timeout)
     if response.ok or response.status_code == 403:
-        return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
+        return response.json() if response.content else None
     else:
         response.raise_for_status()
 
@@ -62,7 +67,7 @@ def make_put_request(url, data, params, headers, connection):
     response = connection.put(url, data=data, params=params, headers=headers,
                               timeout=timeout)
     if response.ok or response.status_code == 403:
-        return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
+        return response.json() if response.content else None
     else:
         response.raise_for_status()
 
@@ -91,7 +96,7 @@ def make_post_request(url, data, params, headers, connection):
     response = connection.post(url, data=data, params=params, headers=headers,
                                timeout=timeout)
     if response.ok or response.status_code == 403:
-        return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
+        return response.json() if response.content else None
     else:
         response.raise_for_status()
 
@@ -120,7 +125,7 @@ def make_patch_request(url, data, params, headers, connection):
     response = connection.patch(url, data=data, params=params, headers=headers,
                                 timeout=timeout)
     if response.ok or response.status_code == 403:
-        return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
+        return response.json() if response.content else None
     else:
         response.raise_for_status()
 
@@ -147,7 +152,7 @@ def make_delete_request(url, params, headers, connection):
     timeout = getattr(connection, 'timeout')
     response = connection.delete(url, params=params, headers=headers, timeout=timeout)
     if response.ok or response.status_code == 403:
-        return json.loads(response.content or FirebaseApplication.EMPTY_RESPONSE)
+        return response.json() if response.content else None
     else:
         response.raise_for_status()
 
@@ -219,7 +224,6 @@ class FirebaseApplication(object):
     """
     NAME_EXTENSION = '.json'
     URL_SEPERATOR = '/'
-    EMPTY_RESPONSE = 'null'
 
     def __init__(self, dsn, authentication=None):
         assert dsn.startswith('https://'), 'DSN must be a secure URL'

@@ -1,7 +1,8 @@
 import unittest
 
-from jsonutil_test import JSONTestCase
-from firebase_test import FirebaseTestCase
+from .jsonutil_test import JSONTestCase
+from .firebase_test import FirebaseTestCase
+
 
 def all_tests():
     suite = unittest.TestSuite()
