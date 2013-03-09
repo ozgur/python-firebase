@@ -38,6 +38,11 @@ class MockResponse(object):
     def ok(self):
         return str(self.status_code).startswith('2')
 
+    def json(self):
+        if self.content:
+            return json.loads(self.content)
+        return None
+
     def raise_for_status(self):
         raise Exception('Fake HTTP Error')
 
