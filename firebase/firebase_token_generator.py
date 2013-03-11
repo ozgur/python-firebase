@@ -97,7 +97,7 @@ class FirebaseTokenGenerator(object):
         return encoded.decode('utf-8').replace('=', '')
 
     def _encode_json(self, obj):
-        return self._encode(bytearray(json.dumps(obj), 'utf-8'))
+        return self._encode(json.dumps(obj).encode("utf-8"))
 
     def _sign(self, secret, to_sign):
         def portable_bytes(s):
