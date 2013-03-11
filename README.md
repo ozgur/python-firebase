@@ -6,11 +6,10 @@ Python interface to the Firebase's REST API
 
 ## Installation
 
-python-firebase highly makes use of the **requests** library so before you start, you need to install that package.
+python-firebase highly makes use of the **requests** library so before you begin, you need to have that package installed.
 
     $ sudo pip install requests
-    $ git clone git@github.com:ozgur/python-firebase.git
-    $ python setup.py install
+    $ sudo pip install python-firebase
 
 ## Getting Started
 
