@@ -13,4 +13,5 @@ def close_process_pool():
     defined in the ``async`` file.
     """
     process_pool.close()
+    process_pool.join()
     process_pool.terminate()
