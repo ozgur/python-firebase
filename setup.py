@@ -6,14 +6,12 @@ try:
 except ImportError:
     from distutils.core import setup
 
-from firebase import __version__
-
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     long_description = readme.read()
 
 
 setup(name='python-firebase',
-      version=__version__,
+      version='1.1',
       description="Python interface to the Firebase's REST API.",
       long_description=long_description,
       classifiers=[
