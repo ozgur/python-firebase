@@ -10,7 +10,8 @@ class JSONTestCase(unittest.TestCase):
     def setUp(self):
         self.data = {'now': datetime.datetime.now(),
                      'oneday': datetime.timedelta(days=1),
-                     'five': decimal.Decimal(5)}
+                     'five': decimal.Decimal(5),
+                     'date': datetime.date(2014, 03, 11)}
 
     def test_conversion(self):
         serialized = json.dumps(self.data, cls=JSONEncoder)
@@ -19,6 +20,7 @@ class JSONTestCase(unittest.TestCase):
         self.assertTrue(type(deserialized['five']) == float)
         self.assertEqual(deserialized['five'], float(5))
         self.assertEqual(deserialized['now'], str(self.data['now'].isoformat()))
+        self.assertEqual(deserialized['date'], str(self.data['date'].isoformat()))
 
     def test_total_seconds(self):
         from firebase.jsonutil import total_seconds
