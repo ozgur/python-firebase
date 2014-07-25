@@ -6,7 +6,8 @@ from firebase.firebase import FirebaseApplication, FirebaseAuthentication
 if __name__ == '__main__':
     SECRET = '12345678901234567890'
     DSN = 'https://firebase.localhost'
-    authentication = FirebaseAuthentication(SECRET, True, True)
+    EMAIL = 'your@email.com'
+    authentication = FirebaseAuthentication(SECRET,EMAIL, True, True)
     firebase = FirebaseApplication(DSN, authentication)
 
     firebase.get('/users', None,
