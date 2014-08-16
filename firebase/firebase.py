@@ -262,7 +262,7 @@ class FirebaseApplication(object):
             headers.update(self.authentication.authenticator.HEADERS)
 
     @http_connection(60)
-    def get(self, url, name, connection, params=None, headers=None):
+    def get(self, url, name, params=None, headers=None, connection=None):
         """
         Synchronous GET request.
         """
