@@ -5,14 +5,14 @@ from threading import Thread
 
 
 class AsyncLoader(Thread):
-    def __init__(self, func, func_args, callback, *args, **kwargs):
+    def __init__(self, func, callback, *args, **kwargs):
         super(DataAsyncLoader, self).__init__(*args, **kwargs)
         self.daemon = True
         self.quit = False
         self.func = func
-        self.func_args = func_args
+        self.func_args = kwargs.pop('args')
         self.callback = callback
 
     def run(self):
-        data = func(self.func_args)
+        data = func(*self.func_args)
         self.callback(data=data)
