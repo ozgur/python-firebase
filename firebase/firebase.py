@@ -262,7 +262,7 @@ class FirebaseApplication(object):
             headers.update(self.authentication.authenticator.HEADERS)
 
     @http_connection(60)
-    def get(self, url, name, connection, params=None, headers=None):
+    def get(self, url, name, params=None, headers=None, connection=None):
         """
         Synchronous GET request.
         """
@@ -286,7 +286,7 @@ class FirebaseApplication(object):
             args=(endpoint, params, headers), callback=callback)
 
     @http_connection(60)
-    def put(self, url, name, data, connection, params=None, headers=None):
+    def put(self, url, name, data, params=None, headers=None, connection=None):
         """
         Synchronous PUT request. There will be no returning output from
         the server, because the request will be made with ``silent``
@@ -316,7 +316,7 @@ class FirebaseApplication(object):
                                  callback=callback)
 
     @http_connection(60)
-    def post(self, url, data, connection, params=None, headers=None):
+    def post(self, url, data, params=None, headers=None, connection=None):
         """
         Synchronous POST request. ``data`` must be a JSONable value.
         """
@@ -342,7 +342,7 @@ class FirebaseApplication(object):
                                  callback=callback)
 
     @http_connection(60)
-    def patch(self, url, data, connection, params=None, headers=None):
+    def patch(self, url, data, params=None, headers=None, connection=None):
         """
         Synchronous POST request. ``data`` must be a JSONable value.
         """
@@ -368,7 +368,7 @@ class FirebaseApplication(object):
                                  callback=callback)
 
     @http_connection(60)
-    def delete(self, url, name, connection, params=None, headers=None):
+    def delete(self, url, name, params=None, headers=None, connection=None):
         """
         Synchronous DELETE request. ``data`` must be a JSONable value.
         """
