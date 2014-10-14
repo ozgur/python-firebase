@@ -6,7 +6,7 @@ from threading import Thread
 
 class AsyncLoader(Thread):
     def __init__(self, func, callback, *args, **kwargs):
-        super(DataAsyncLoader, self).__init__(*args, **kwargs)
+        super(AsyncLoader, self).__init__(*args, **kwargs)
         self.daemon = True
         self.quit = False
         self.func = func
