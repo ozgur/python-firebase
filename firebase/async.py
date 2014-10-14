@@ -14,5 +14,5 @@ class AsyncLoader(Thread):
         self.callback = callback
 
     def run(self):
-        data = func(*self.func_args)
+        data = self.func(*self.func_args)
         self.callback(data=data)
