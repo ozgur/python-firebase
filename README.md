@@ -87,7 +87,7 @@ result = firebase.get('/users', None, {'print': 'pretty'})
 print result
 {'error': 'Permission denied.'}
 
-authentication = firebase.Authentication('THIS_IS_MY_SECRET', 'ozgurvt@gmail.com', extra={'id': 123})
+authentication = firebase.FirebaseAuthentication('THIS_IS_MY_SECRET', 'ozgurvt@gmail.com', extra={'id': 123})
 firebase.authentication = authentication
 print authentication.extra
 {'admin': False, 'debug': False, 'email': 'ozgurvt@gmail.com', 'id': 123, 'provider': 'password'}
