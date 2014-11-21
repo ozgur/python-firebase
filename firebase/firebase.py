@@ -9,7 +9,7 @@ import json
 from .firebase_token_generator import FirebaseTokenGenerator
 from .decorators import http_connection
 
-from .async import process_pool
+from .async import AsyncLoader
 from .jsonutil import JSONEncoder
 
 __all__ = ['FirebaseAuthentication', 'FirebaseApplication']
@@ -282,8 +282,9 @@ class FirebaseApplication(object):
         headers = headers or {}
         endpoint = self._build_endpoint_url(url, name)
         self._authenticate(params, headers)
-        process_pool.apply_async(make_get_request,
-            args=(endpoint, params, headers), callback=callback)
+        AsyncLoader(make_get_request,
+                    args=(endpoint, params, headers),
+                    callback=callback).start()
 
     @http_connection(60)
     def put(self, url, name, data, params=None, headers=None, connection=None):
@@ -311,9 +312,9 @@ class FirebaseApplication(object):
         endpoint = self._build_endpoint_url(url, name)
         self._authenticate(params, headers)
         data = json.dumps(data, cls=JSONEncoder)
-        process_pool.apply_async(make_put_request,
-                                 args=(endpoint, data, params, headers),
-                                 callback=callback)
+        AsyncLoader(make_put_request,
+                    args=(endpoint, data, params, headers),
+                    callback=callback).start()
 
     @http_connection(60)
     def post(self, url, data, params=None, headers=None, connection=None):
@@ -337,9 +338,9 @@ class FirebaseApplication(object):
         endpoint = self._build_endpoint_url(url, None)
         self._authenticate(params, headers)
         data = json.dumps(data, cls=JSONEncoder)
-        process_pool.apply_async(make_post_request,
-                                 args=(endpoint, data, params, headers),
-                                 callback=callback)
+        AsyncLoader(make_post_request,
+                    args=(endpoint, data, params, headers),
+                    callback=callback).start()
 
     @http_connection(60)
     def patch(self, url, data, params=None, headers=None, connection=None):
@@ -363,9 +364,9 @@ class FirebaseApplication(object):
         endpoint = self._build_endpoint_url(url, None)
         self._authenticate(params, headers)
         data = json.dumps(data, cls=JSONEncoder)
-        process_pool.apply_async(make_patch_request,
-                                 args=(endpoint, data, params, headers),
-                                 callback=callback)
+        AsyncLoader(make_patch_request,
+                    args=(endpoint, data, params, headers),
+                    callback=callback).start()
 
     @http_connection(60)
     def delete(self, url, name, params=None, headers=None, connection=None):
@@ -388,5 +389,6 @@ class FirebaseApplication(object):
         headers = headers or {}
         endpoint = self._build_endpoint_url(url, name)
         self._authenticate(params, headers)
-        process_pool.apply_async(make_delete_request,
-                    args=(endpoint, params, headers), callback=callback)
+        AsyncLoader(make_delete_request,
+                    args=(endpoint, params, headers),
+                    callback=callback).start()
