@@ -12,6 +12,8 @@ from .decorators import http_connection
 from .async import process_pool
 from .jsonutil import JSONEncoder
 
+import requests
+
 __all__ = ['FirebaseAuthentication', 'FirebaseApplication']
 
 
@@ -273,7 +275,7 @@ class FirebaseApplication(object):
         self._authenticate(params, headers)
         return make_get_request(endpoint, params, headers, connection=connection)
 
-    def get_async(self, url, name, callback=None, params=None, headers=None):
+    def get_async(self, url, name, callback=None, error_callback=None, params=None, headers=None):
         """
         Asynchronous GET request with the process pool.
         """
@@ -283,7 +285,7 @@ class FirebaseApplication(object):
         endpoint = self._build_endpoint_url(url, name)
         self._authenticate(params, headers)
         process_pool.apply_async(make_get_request,
-            args=(endpoint, params, headers), callback=callback)
+            args=(endpoint, params, headers), callback=callback, error_callback=error_callback)
 
     @http_connection(60)
     def put(self, url, name, data, params=None, headers=None, connection=None):
@@ -301,7 +303,7 @@ class FirebaseApplication(object):
         return make_put_request(endpoint, data, params, headers,
                                 connection=connection)
 
-    def put_async(self, url, name, data, callback=None, params=None, headers=None):
+    def put_async(self, url, name, data, callback=None, error_callback=None, params=None, headers=None):
         """
         Asynchronous PUT request with the process pool.
         """
@@ -313,7 +315,7 @@ class FirebaseApplication(object):
         data = json.dumps(data, cls=JSONEncoder)
         process_pool.apply_async(make_put_request,
                                  args=(endpoint, data, params, headers),
-                                 callback=callback)
+                                 callback=callback, error_callback=error_callback)
 
     @http_connection(60)
     def post(self, url, data, params=None, headers=None, connection=None):
@@ -328,7 +330,7 @@ class FirebaseApplication(object):
         return make_post_request(endpoint, data, params, headers,
                                  connection=connection)
 
-    def post_async(self, url, data, callback=None, params=None, headers=None):
+    def post_async(self, url, data, callback=None, error_callback=None, params=None, headers=None):
         """
         Asynchronous POST request with the process pool.
         """
@@ -339,7 +341,7 @@ class FirebaseApplication(object):
         data = json.dumps(data, cls=JSONEncoder)
         process_pool.apply_async(make_post_request,
                                  args=(endpoint, data, params, headers),
-                                 callback=callback)
+                                 callback=callback, error_callback=error_callback)
 
     @http_connection(60)
     def patch(self, url, data, params=None, headers=None, connection=None):
@@ -354,7 +356,7 @@ class FirebaseApplication(object):
         return make_patch_request(endpoint, data, params, headers,
                                   connection=connection)
 
-    def patch_async(self, url, data, callback=None, params=None, headers=None):
+    def patch_async(self, url, data, callback=None, error_callback=None, params=None, headers=None):
         """
         Asynchronous PATCH request with the process pool.
         """
@@ -365,7 +367,7 @@ class FirebaseApplication(object):
         data = json.dumps(data, cls=JSONEncoder)
         process_pool.apply_async(make_patch_request,
                                  args=(endpoint, data, params, headers),
-                                 callback=callback)
+                                 callback=callback, error_callback=error_callback)
 
     @http_connection(60)
     def delete(self, url, name, params=None, headers=None, connection=None):
@@ -379,7 +381,7 @@ class FirebaseApplication(object):
         self._authenticate(params, headers)
         return make_delete_request(endpoint, params, headers, connection=connection)
 
-    def delete_async(self, url, name, callback=None, params=None, headers=None):
+    def delete_async(self, url, name, callback=None, error_callback=None, params=None, headers=None):
         """
         Asynchronous DELETE request with the process pool.
         """
@@ -389,4 +391,4 @@ class FirebaseApplication(object):
         endpoint = self._build_endpoint_url(url, name)
         self._authenticate(params, headers)
         process_pool.apply_async(make_delete_request,
-                    args=(endpoint, params, headers), callback=callback)
+                    args=(endpoint, params, headers), callback=callback, error_callback=error_callback)
