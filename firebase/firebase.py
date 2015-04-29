@@ -292,7 +292,7 @@ class FirebaseApplication(object):
         the server, because the request will be made with ``silent``
         parameter. ``data`` must be a JSONable value.
         """
-        assert name, 'Snapshot name must be specified'
+        if name is None: name = ''
         params = params or {}
         headers = headers or {}
         endpoint = self._build_endpoint_url(url, name)
