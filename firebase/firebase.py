@@ -239,10 +239,10 @@ class FirebaseApplication(object):
         full_url = _build_endpoint_url('/users', '1')
         full_url => 'http://firebase.localhost/users/1.json'
         """
+        if (name is None) or (name is ''):
+            return '%s%s' % (urlparse.urljoin(self.dsn, url), self.NAME_EXTENSION)
         if not url.endswith(self.URL_SEPERATOR):
             url = url + self.URL_SEPERATOR
-        if name is None:
-            name = ''
         return '%s%s%s' % (urlparse.urljoin(self.dsn, url), name,
                            self.NAME_EXTENSION)
 
