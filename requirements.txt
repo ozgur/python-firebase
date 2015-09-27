@@ -1,1 +1,2 @@
 requests>=1.1.0
+firebase-token-generator>=2.0.1

@@ -1,12 +1,12 @@
 try:
     import urlparse
 except ImportError:
-    #py3k
+    # py3k
     from urllib import parse as urlparse
 
 import json
+from firebase_token_generator import create_token
 
-from .firebase_token_generator import FirebaseTokenGenerator
 from .decorators import http_connection
 
 from .async import process_pool
@@ -93,8 +93,7 @@ def make_post_request(url, data, params, headers, connection):
     response => {u'name': u'-Inw6zol_2f5ThHwVcSe'} or {'error': 'Permission denied.'}
     """
     timeout = getattr(connection, 'timeout')
-    response = connection.post(url, data=data, params=params, headers=headers,
-                               timeout=timeout)
+    response = connection.post(url, data=data, params=params, headers=headers, timeout=timeout)
     if response.ok or response.status_code == 403:
         return response.json() if response.content else None
     else:
@@ -122,8 +121,7 @@ def make_patch_request(url, data, params, headers, connection):
     response => {'Ozgur Vatansever'} or {'error': 'Permission denied.'}
     """
     timeout = getattr(connection, 'timeout')
-    response = connection.patch(url, data=data, params=params, headers=headers,
-                                timeout=timeout)
+    response = connection.patch(url, data=data, params=params, headers=headers, timeout=timeout)
     if response.ok or response.status_code == 403:
         return response.json() if response.content else None
     else:
@@ -162,11 +160,16 @@ class FirebaseUser(object):
     Class that wraps the credentials of the authenticated user. Think of
     this as a container that holds authentication related data.
     """
-    def __init__(self, email, firebase_auth_token, provider, id=None):
+
+    def __init__(self, email, firebase_auth_token, provider, uid=None):
         self.email = email
         self.firebase_auth_token = firebase_auth_token
         self.provider = provider
-        self.id = id
+        self.uid = uid
+
+    def __repr__(self):
+        return '<%s email="%s" uid="%s" provider="%s" firebase_auth_token="%s">' % (
+            self.__class__.__name__, self.email, self.uid, self.provider, self.firebase_auth_token)
 
 
 class FirebaseAuthentication(object):
@@ -177,21 +180,26 @@ class FirebaseAuthentication(object):
     In addition, the provided email and password information is totally
     useless and they never appear in the ``auth`` variable at the server.
     """
-    def __init__(self, secret, email, debug=False, admin=False, extra=None):
-        self.authenticator = FirebaseTokenGenerator(secret, debug, admin)
+
+    def __init__(self, secret, email, auth_payload=None):
+        assert secret, 'Your Firebase SECRET is not valid'
+        self.secret = secret
         self.email = email
         self.provider = 'password'
-        self.extra = (extra or {}).copy()
-        self.extra.update({'debug': debug, 'admin': admin,
-                           'email': self.email, 'provider': self.provider})
+        self.auth_payload = (auth_payload or {}).copy()
 
-    def get_user(self):
+    def get_user(self, expires=None, not_before=None, admin=False, debug=False, simulate=False):
         """
         Method that gets the authenticated user. The returning user has
         the token, email and the provider data.
         """
-        token = self.authenticator.create_token(self.extra)
-        user_id = self.extra.get('id')
+        options = {'admin': admin, 'debug': debug, 'simulate': simulate}
+        if expires is not None:
+            options['expires'] = expires
+        if not_before is not None:
+            options['notBefore'] = not_before
+        token = create_token(self.secret, self.auth_payload, options)
+        user_id = self.auth_payload.get('uid')
         return FirebaseUser(self.email, token, self.provider, user_id)
 
 
@@ -240,7 +248,7 @@ class FirebaseApplication(object):
         full_url => 'http://firebase.localhost/users/1.json'
         """
         if not url.endswith(self.URL_SEPERATOR):
-            url = url + self.URL_SEPERATOR
+            url += self.URL_SEPERATOR
         if name is None:
             name = ''
         return '%s%s%s' % (urlparse.urljoin(self.dsn, url), name,
@@ -259,14 +267,15 @@ class FirebaseApplication(object):
         if self.authentication:
             user = self.authentication.get_user()
             params.update({'auth': user.firebase_auth_token})
-            headers.update(self.authentication.authenticator.HEADERS)
+            # headers.update(self.authentication.authenticator.HEADERS)
 
     @http_connection(60)
     def get(self, url, name, params=None, headers=None, connection=None):
         """
         Synchronous GET request.
         """
-        if name is None: name = ''
+        if name is None:
+            name = ''
         params = params or {}
         headers = headers or {}
         endpoint = self._build_endpoint_url(url, name)
@@ -277,13 +286,14 @@ class FirebaseApplication(object):
         """
         Asynchronous GET request with the process pool.
         """
-        if name is None: name = ''
+        if name is None:
+            name = ''
         params = params or {}
         headers = headers or {}
         endpoint = self._build_endpoint_url(url, name)
         self._authenticate(params, headers)
         process_pool.apply_async(make_get_request,
-            args=(endpoint, params, headers), callback=callback)
+                                 args=(endpoint, params, headers), callback=callback)
 
     @http_connection(60)
     def put(self, url, name, data, params=None, headers=None, connection=None):
@@ -305,7 +315,8 @@ class FirebaseApplication(object):
         """
         Asynchronous PUT request with the process pool.
         """
-        if name is None: name = ''
+        if name is None:
+            name = ''
         params = params or {}
         headers = headers or {}
         endpoint = self._build_endpoint_url(url, name)
@@ -372,7 +383,8 @@ class FirebaseApplication(object):
         """
         Synchronous DELETE request. ``data`` must be a JSONable value.
         """
-        if not name: name = ''
+        if not name:
+            name = ''
         params = params or {}
         headers = headers or {}
         endpoint = self._build_endpoint_url(url, name)
@@ -383,10 +395,11 @@ class FirebaseApplication(object):
         """
         Asynchronous DELETE request with the process pool.
         """
-        if not name: name = ''
+        if not name:
+            name = ''
         params = params or {}
         headers = headers or {}
         endpoint = self._build_endpoint_url(url, name)
         self._authenticate(params, headers)
         process_pool.apply_async(make_delete_request,
-                    args=(endpoint, params, headers), callback=callback)
+                                 args=(endpoint, params, headers), callback=callback)
