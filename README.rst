@@ -82,7 +82,7 @@ Deleting data is relatively easy compared to other actions. You just set the url
 Authentication
 ------------------
 
-Authentication in Firebase is nothing but to simply creating a token that conforms to the JWT standarts and, putting it into the querystring with the name **auth**. The library creates that token for you so you never end up struggling with constructing a valid token on your own. If the data has been protected against write/read operations with some security rules, the backend sends an appropriate error message back to the client with the status code **403 Forbidden**.
+Authentication in Firebase is nothing but to simply creating a token that conforms to the JWT standards and, putting it into the querystring with the name **auth**. The library creates that token for you so you never end up struggling with constructing a valid token on your own. If the data has been protected against write/read operations with some security rules, the backend sends an appropriate error message back to the client with the status code **403 Forbidden**.
 
 .. code-block:: python
 
