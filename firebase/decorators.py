@@ -14,7 +14,9 @@ def http_connection(timeout):
                 kwargs['connection'] = connection
             else:
                 connection = kwargs['connection']
-            connection.timeout = timeout
+
+            if not getattr(connection, 'timeout', False):
+                connection.timeout = timeout
             connection.headers.update({'Content-type': 'application/json'})
             return f(*args, **kwargs)
         return wraps(f)(wrapped)
