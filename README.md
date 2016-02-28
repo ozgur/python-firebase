@@ -51,7 +51,8 @@ print result
 {'2': 'Jane Doe'}
 ```
 
-Creating new data requires a POST or PUT request. Assuming you don't append **print=silent** to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend never sends an output.
+Creating new data requires a POST or PUT request. Assuming you don't append **print=silent** to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend never sends an output. Also, just like GET, you can leave the second argument NULL to insert into **PATH/.json*.
+
 
 ```python
 from firebase import firebase
@@ -65,6 +66,10 @@ print result
 result = firebase.post('/users', new_user, {'print': 'silent'}, {'X_FANCY_HEADER': 'VERY FANCY'})
 print result == None
 True
+
+result = firebase.post('/', None, {'customkey: 'customvalue'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+print result
+{u'customkey': u'customvalue'}
 ```
 
 Deleting data is relatively easy compared to other actions. You just set the url and that's all. Backend sends no output as a result of a delete operation.
