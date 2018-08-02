@@ -1,8 +1,6 @@
-try:
-    import urlparse
-except ImportError:
-    #py3k
-    from urllib import parse as urlparse
+
+# just use python 3.
+from urllib import parse as urlparse
 
 import json
 
