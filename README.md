@@ -2,7 +2,7 @@
 
 Python interface to the Firebase's REST API
 
-[![Firebase](https://www.firebase.com/images/logo.png)](http://www.firebase.com)
+[![Firebase](https://szimek.github.io/presentation-firebase-intro/images/firebase_logo.png)](http://www.firebase.com)
 
 ## Installation
 
