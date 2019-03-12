@@ -9,7 +9,7 @@ import json
 from .firebase_token_generator import FirebaseTokenGenerator
 from .decorators import http_connection
 
-from .async import process_pool
+from .multiprocess_pool import process_pool
 from .jsonutil import JSONEncoder
 
 __all__ = ['FirebaseAuthentication', 'FirebaseApplication']

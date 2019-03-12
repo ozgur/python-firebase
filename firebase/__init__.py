@@ -1,6 +1,6 @@
 import atexit
 
-from .async import process_pool
+from .multiprocess_pool import process_pool
 from firebase import *
 
 
