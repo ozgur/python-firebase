@@ -11,7 +11,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 
 
 setup(name='python-firebase',
-      version='1.2',
+      version='1.2.1',
       description="Python interface to the Firebase's REST API.",
       long_description=long_description,
       classifiers=[
