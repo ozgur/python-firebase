@@ -50,11 +50,11 @@ You can also provide extra query parameters that will be appended to the url or 
 
     from firebase import firebase
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-    result = firebase.get('/users/2', None, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+    result = firebase.get('/users/2', None, {'print': 'pretty', 'mykey': 'myvalue'}, {'X_FANCY_HEADER': 'VERY FANCY'})
     print result
     {'2': 'Jane Doe'}
 
-Creating new data requires a POST or PUT request. Assuming you don't append **print=silent** to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend never sends an output.
+Creating new data requires a POST or PUT request. Assuming you don't append **print=silent** to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend never sends an output. Also, just like GET, you can leave the second argument NULL to insert into **PATH/.json*.
 
 .. code-block:: python
 
@@ -69,6 +69,10 @@ Creating new data requires a POST or PUT request. Assuming you don't append **pr
     result = firebase.post('/users', new_user, {'print': 'silent'}, {'X_FANCY_HEADER': 'VERY FANCY'})
     print result == None
     True
+
+   result = firebase.post('/', None, {'customkey: 'customvalue'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+    print result
+    {u'name': u'-Io26123nDHkfybDIGl7'}
 
 Deleting data is relatively easy compared to other actions. You just set the url and that's all. Backend sends no output as a result of a delete operation.
 
