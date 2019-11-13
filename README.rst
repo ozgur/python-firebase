@@ -53,7 +53,7 @@ You can also provide extra query parameters that will be appended to the url or 
     print result
     {'2': 'Jane Doe'}
 
-Creating new data requires a PUT or POST request. If you know exactly where you want to put the data, use PUT. If you just want to append some data under a new key, but don't want to tell Firebase what key to use, use POST and it will create a unique time-ordered key. 
+Creating new data requires a PUT or POST request. If you know exactly where you want to put the data, use PUT. If you just want to append some data under a new key, but don't want to tell Firebase what key to use, use POST and Firebase will create a unique time-ordered key. 
 
 By default, in POST the function returns the a dictionary containing in "name", the key it has created for the data you have written, and in PUT the function returns the data you have just sent. If, instead, you set print=silent, the function returns None because the backend never sends an output.
 
