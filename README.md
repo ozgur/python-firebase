@@ -24,8 +24,8 @@ To fetch all the users in your storage simply do the following:
 
 ```python
 from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-result = firebase.get('/users', None)
+fb_app = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+result = fb_app.get('/users', None)
 print result
 {'1': 'John Doe', '2': 'Jane Doe'}
 ```
@@ -35,8 +35,8 @@ The second argument of **get** method is the name of the snapshot. Thus, if you 
 
 ```python
 from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-result = firebase.get('/users', '1')
+fb_app = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+result = fb_app.get('/users', '1')
 print result
 {'1': 'John Doe'}
 ```
@@ -45,8 +45,8 @@ You can also provide extra query parameters that will be appended to the url or 
 
 ```python
 from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-result = firebase.get('/users/2', None, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+fb_app = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+result = fb_app.get('/users/2', None, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
 print result
 {'2': 'Jane Doe'}
 ```
@@ -55,14 +55,14 @@ Creating new data requires a POST or PUT request. Assuming you don't append **pr
 
 ```python
 from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+fb_app = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
 new_user = 'Ozgur Vatansever'
 
-result = firebase.post('/users', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+result = fb_app.post('/users', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
 print result
 {u'name': u'-Io26123nDHkfybDIGl7'}
 
-result = firebase.post('/users', new_user, {'print': 'silent'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+result = fb_app.post('/users', new_user, {'print': 'silent'}, {'X_FANCY_HEADER': 'VERY FANCY'})
 print result == None
 True
 ```
@@ -71,8 +71,8 @@ Deleting data is relatively easy compared to other actions. You just set the url
 
 ```python
 from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
-firebase.delete('/users', '1')
+fb_app = firebase.FirebaseApplication('https://your_storage.firebaseio.com', None)
+fb_app.delete('/users', '1')
 # John Doe goes away.
 ```
 
@@ -82,13 +82,13 @@ Authentication in Firebase is nothing but to simply creating a token that confor
 
 ```python
 from firebase import firebase
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
-result = firebase.get('/users', None, {'print': 'pretty'})
+fb_app = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
+result = fb_app.get('/users', None, {'print': 'pretty'})
 print result
 {'error': 'Permission denied.'}
 
 authentication = firebase.FirebaseAuthentication('THIS_IS_MY_SECRET', 'ozgurvt@gmail.com', extra={'id': 123})
-firebase.authentication = authentication
+fb_app.authentication = authentication
 print authentication.extra
 {'admin': False, 'debug': False, 'email': 'ozgurvt@gmail.com', 'id': 123, 'provider': 'password'}
 
@@ -99,7 +99,7 @@ hdCI6IDEzNjE5NTAxNzQsICJkIjogeyJkZWJ1ZyI6IGZhbHNlLCAiYWRtaW4iOiBmYWxzZSwgInByb3Z
 InBhc3N3b3JkIiwgImlkIjogNSwgImVtYWlsIjogIm96Z3VydnRAZ21haWwuY29tIn0sICJ2IjogMH0.lq4IRVfvE
 GQklslOlS4uIBLSSJj88YNrloWXvisRgfQ"
 
-result = firebase.get('/users', None, {'print': 'pretty'})
+result = fb_app.get('/users', None, {'print': 'pretty'})
 print result
 {'1': 'John Doe', '2': 'Jane Doe'}
 ```
@@ -114,13 +114,13 @@ import json
 from firebase import firebase
 from firebase import jsonutil
 
-firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
+fb_app = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
 
 def log_user(response):
     with open('/tmp/users/%s.json' % response.keys()[0], 'w') as users_file:
         users_file.write(json.dumps(response, cls=jsonutil.JSONEncoder))
 
-firebase.get_async('/users', None, {'print': 'pretty'}, callback=log_user)
+fb_app.get_async('/users', None, {'print': 'pretty'}, callback=log_user)
 ```
 
 # TODO
