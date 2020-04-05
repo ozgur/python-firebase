@@ -52,8 +52,9 @@ class FirebaseTestCase(unittest.TestCase):
         self.SECRET = 'FAKE_FIREBASE_SECRET'
         self.DSN = 'https://firebase.localhost'
         self.EMAIL = 'python-firebase@firebase.com'
+        self.UID = '123'
         self.authentication = FirebaseAuthentication(self.SECRET, self.EMAIL,
-                                                     None)
+                                                     auth_payload={'uid': self.UID})
         self.firebase = FirebaseApplication(self.DSN, self.authentication)
 
     def test_build_endpoint_url(self):
