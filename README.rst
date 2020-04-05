@@ -1,7 +1,7 @@
 Python Firebase
 =================
 
-Python interface to the Firebase's REST API
+Python interface to Firebase's REST API
 
 .. image:: https://travis-ci.org/ozgur/python-firebase.png?branch=master
    :target: https://travis-ci.org/ozgur/python-firebase
@@ -9,7 +9,7 @@ Python interface to the Firebase's REST API
 Installation
 -----------------
 
-python-firebase highly makes use of the **requests** library so before you begin, you need to have that package installed.
+python-firebase depends heavily on the **requests** library.
 
 .. code-block:: bash
 
@@ -19,12 +19,11 @@ python-firebase highly makes use of the **requests** library so before you begin
 Getting Started
 ------------------
 
-You can fetch any of your data in JSON format by appending '.json' to the end of the URL in which your data resides and, then send an HTTPS request through your browser. Like all other REST specific APIs, Firebase offers a client to update(PATCH, PUT), create(POST), or remove(DELETE) his stored data along with just to fetch it.
+You can read or write any of your data in JSON format. Append '.json' to the end of the URL in which your data resides. Send an HTTPS request from the browser. You can read (GET), replace (PUT), selectively update (PATCH), append (POST), or remove (DELETE) data From firebase.
 
-The library provides all the correspoding methods for those actions in both synchoronous and asynchronous manner. You can just start an asynchronous GET request with your callback function, and the method
+The library provides all the correspoding methods for those actions in both synchoronous and asynchronous manner. 
 
-
-To fetch all the users in your storage simply do the following:
+To read some data, start an asynchronous GET request with your callback function. For example, to fetch the entire content of "/users" in your Firebase database called "your_storage", do the following:
 
 .. code-block:: python
 
@@ -34,7 +33,7 @@ To fetch all the users in your storage simply do the following:
     print result
     {'1': 'John Doe', '2': 'Jane Doe'}
 
-The second argument of **get** method is the name of the snapshot. Thus, if you leave it NULL, you get the data in the URL **/users.json**. Besides, if you set it to **1**, you get the data in the url **/users/1.json**. In other words, you get the user whose ID equals to 1.
+The second argument of **get** method is the branch of the database you wish to read. If you leave it None, you get all the data in the URL **/users.json**. If, instead, you set it to **1**, you get the data in the url **/users/1.json**. In other words, you get the user whose ID equals to 1.
 
 .. code-block:: python
 
@@ -54,7 +53,9 @@ You can also provide extra query parameters that will be appended to the url or 
     print result
     {'2': 'Jane Doe'}
 
-Creating new data requires a POST or PUT request. Assuming you don't append **print=silent** to the url, if you use POST the returning value becomes the name of the snapshot, if PUT you get the data you just sent. If print=silent is provided, you get just NULL because the backend never sends an output.
+Creating new data requires a PUT or POST request. If you know exactly where you want to put the data, use PUT. If you just want to append some data under a new key, but don't want to tell Firebase what key to use, use POST and Firebase will create a unique time-ordered key. 
+
+By default, in POST the function returns the a dictionary containing in "name", the key it has created for the data you have written, and in PUT the function returns the data you have just sent. If, instead, you set print=silent, the function returns None because the backend never sends an output.
 
 .. code-block:: python
 
@@ -70,7 +71,7 @@ Creating new data requires a POST or PUT request. Assuming you don't append **pr
     print result == None
     True
 
-Deleting data is relatively easy compared to other actions. You just set the url and that's all. Backend sends no output as a result of a delete operation.
+Deleting data is relatively easy compared to other actions. You just specify the url. The backend sends no output.
 
 .. code-block:: python
 
@@ -82,7 +83,7 @@ Deleting data is relatively easy compared to other actions. You just set the url
 Authentication
 ------------------
 
-Authentication in Firebase is nothing but to simply creating a token that conforms to the JWT standarts and, putting it into the querystring with the name **auth**. The library creates that token for you so you never end up struggling with constructing a valid token on your own. If the data has been protected against write/read operations with some security rules, the backend sends an appropriate error message back to the client with the status code **403 Forbidden**.
+Authentication in Firebase involves simply creating a token that conforms to the JWT standarts and putting it into the querystring with the name **auth**. The library creates that token for you so you never end up struggling with constructing a valid token on your own. If the data has been protected against write/read operations with some security rules, the backend sends an appropriate error message back to the client with the status code **403 Forbidden**.
 
 .. code-block:: python
 
@@ -116,9 +117,9 @@ The interface heavily depends on the standart **multiprocessing** library when c
 
 .. code-block:: python
 
-     import json
-     from firebase import firebase
-     from firebase import jsonutil
+    import json
+    from firebase import firebase
+    from firebase import jsonutil
 
     firebase = firebase.FirebaseApplication('https://your_storage.firebaseio.com', authentication=None)
 
