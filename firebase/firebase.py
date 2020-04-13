@@ -258,7 +258,7 @@ class FirebaseApplication(object):
         """
         if self.authentication:
             user = self.authentication.get_user()
-            params.update({'auth': user.firebase_auth_token})
+            params.update({'auth_token': user.firebase_auth_token})
             headers.update(self.authentication.authenticator.HEADERS)
 
     @http_connection(60)
