@@ -125,6 +125,6 @@ fb_app.get_async('/users', None, {'print': 'pretty'}, callback=log_user)
 
 # TODO
 
- * Async calls must deliver exceptions raised back to the main process.
- * More regression/stress tests on asynchronous calls.
- * Docs must be generated.
+- [ ] Async calls must deliver exceptions raised back to the main process.
+- [ ] More regression/stress tests on asynchronous calls.
+- [ ] Docs must be generated.
