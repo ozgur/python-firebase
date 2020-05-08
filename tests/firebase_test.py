@@ -59,7 +59,7 @@ class FirebaseTestCase(unittest.TestCase):
     def test_build_endpoint_url(self):
         url1 = os.path.join(self.DSN, 'users', '1.json')
         self.assertEqual(self.firebase._build_endpoint_url('/users', '1'), url1)
-        url2 = os.path.join(self.DSN, 'users/1/.json')
+        url2 = os.path.join(self.DSN, 'users/1.json')
         self.assertEqual(self.firebase._build_endpoint_url('/users/1', None), url2)
 
     def test_make_get_request(self):
