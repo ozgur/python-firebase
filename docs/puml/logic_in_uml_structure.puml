@@ -1,0 +1,35 @@
+@startuml
+
+actor User
+participant "Python Console" as PC
+participant "Firebase" as FB
+
+User -> PC: Install and start python-firebase
+PC -> User: Start success message
+
+User -> PC: Send GET request for data in Firebase
+PC -> FB: Request data
+FB -> PC: Send requested data
+PC -> User: Return the fetched data
+
+User -> PC: Send POST request to create new data in Firebase
+PC -> FB: Create new data
+FB -> PC: Confirm data creation
+PC -> User: Return confirmation 
+
+User -> PC: Send DELETE request to remove data in Firebase
+PC -> FB: Remove data
+FB -> PC: Confirm data deletion
+PC -> User: Return confirmation
+
+User -> PC: Authenticate user in Firebase
+PC -> FB: Send authentication details
+FB -> PC: Authenticate and return token
+PC -> User: Return Firebase auth token
+
+User -> PC: Trigger asynchronous calls
+PC -> FB: Execute async calls and return data
+FB -> PC: Return async call results
+PC -> User: Return results of async calls
+
+@enduml
