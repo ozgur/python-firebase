@@ -243,8 +243,7 @@ class FirebaseApplication(object):
             url = url + self.URL_SEPERATOR
         if name is None:
             name = ''
-        return '%s%s%s' % (urlparse.urljoin(self.dsn, url), name,
-                           self.NAME_EXTENSION)
+        return f'{urlparse.urljoin(self.dsn, url)}{name}{self.NAME_EXTENSION}'
 
     def _authenticate(self, params, headers):
         """
